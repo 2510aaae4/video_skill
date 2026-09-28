@@ -1,0 +1,18 @@
+# generated inside any project folder
+vo/
+frames/
+stills/
+out/
+cues.json
+score.wav
+codex_last_message.txt
+
+# python / editors
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+
+# never commit browser profiles or local projects
+.chrome-profile/
+projects/

@@ -1,0 +1,59 @@
+{
+  "title": "Code-rendered explainer demo",
+  "output": "demo",
+  "voice": "Mark",
+  "rate": 0.95,
+  "lead": 4.0,
+  "chapter_gap": 1.15,
+  "line_gap": 0.35,
+  "end_hold": 3.0,
+  "assets": { "sample": "assets/sample.jpg" },
+  "constants": { "subtitle": "A template for narrated videos rendered by code" },
+  "whisper_prompt": "Whisper, timestamp.",
+  "music": { "chords": ["Fmaj7", "Cadd9"] },
+  "sfx": [
+    { "at": "code", "type": "tick" },
+    { "at": "frame1", "type": "steps" },
+    { "at": "voice", "type": "pop" },
+    { "at": "script", "type": "tick" },
+    { "at": "timestamp", "type": "sparkle" },
+    { "at": "zoom", "type": "rise", "offset": -0.2 },
+    { "at": "check", "type": "confirm" }
+  ],
+  "lines": [
+    {
+      "id": "N1",
+      "chapter": { "n": 1, "title": "Narration first" },
+      "source": "demo",
+      "text": "This short video was drawn entirely by code, / frame by frame, / on one computer."
+    },
+    {
+      "id": "N2",
+      "source": "demo",
+      "text": "First, a local voice reads the script, / and every word gets a timestamp."
+    },
+    {
+      "id": "N3",
+      "chapter": { "n": 2, "title": "Pictures follow words" },
+      "gap": 2.0,
+      "source": "demo",
+      "text": "Each animation is tied to a spoken word, / so when I say *zoom*, / the picture zooms in."
+    },
+    {
+      "id": "N4",
+      "source": "demo",
+      "text": "Finally, Whisper listens to the finished video / to check every word and its timing."
+    }
+  ],
+  "anchors": {
+    "code": ["N1", "code"],
+    "frame1": ["N1", "frame", 0],
+    "frame2": ["N1", "frame", 1],
+    "voice": ["N2", "voice"],
+    "script": ["N2", "script"],
+    "timestamp": ["N2", "timestamp"],
+    "zoom": ["N3", "zoom"],
+    "whisper": ["N4", "Whisper"],
+    "check": ["N4", "check"]
+  }
+}

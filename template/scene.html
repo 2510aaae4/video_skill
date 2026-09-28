@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>video_skill scene</title>
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="js/core.js"></script>
+<script src="js/scenes.js"></script>
+<script>
+'use strict';
+// Compositor: title -> chapter scenes cross-fading on the chapter-card times -> end card.
+// The scenes themselves live in js/scenes.js: sceneTitle(t, a), CHAPTER_SCENES[n](t, a), sceneEnd(t, a).
+window.renderFrame = function (t, stamp = false) {
+  resetContext();
+  backdrop(t);
+  const chs = CUES.chapters, first = chs.length ? chs[0].card : E.end_title;
+  const aTitle = 1 - prog(t, first, first + 0.45);
+  if (aTitle > 0) sceneTitle(t, aTitle);
+  chs.forEach((c, k) => {
+    const to = k + 1 < chs.length ? chs[k + 1].card : E.end_title;
+    const a = win(t, c.card + 0.05, to + 0.45, 0.4, 0.45);
+    const scene = CHAPTER_SCENES[c.n];
+    if (a > 0 && scene) scene(t, a);
+  });
+  const aEnd = prog(t, E.end_title, E.end_title + 0.6);
+  if (aEnd > 0) sceneEnd(t, aEnd);
+  if (aEnd < 1) chapterOverlay(t);
+  karaoke(t);
+  fadeBlack(t);
+  if (stamp) timeStamp(t);
+  return cv.toDataURL('image/jpeg', 0.92);
+};
+
+window.ready = (async () => {
+  CUES = await (await fetch('cues.json', { cache: 'no-store' })).json();
+  E = CUES.events;
+  await loadAssets(CUES.assets);
+  if (typeof setupScenes === 'function') await setupScenes();
+  return `assets: ${Object.keys(IMG).length}, chapters: ${CUES.chapters.length}`;
+})();
+</script>
+</body>
+</html>
